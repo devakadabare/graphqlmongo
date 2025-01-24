@@ -1,0 +1,20 @@
+type Customer {
+  id: ID
+  nickName: String
+  firstName: String
+  lastName: String
+  email: String
+  countryCode: String
+  mobile: String
+  address: String
+  status: String
+  createdAt: String
+}
+
+type Query {
+  getCustomer(id: ID!): Customer
+}
+
+schema {
+  query: Query
+}

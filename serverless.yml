@@ -1,0 +1,61 @@
+service: pick-to-door
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: "ap-south-1"
+
+functions:
+  function1:
+    handler: index.handler
+
+  getCustomer:
+    handler: index.getCustomer
+
+resources:
+  Resources:
+    Pick2DoorAppSyncAPI:
+      Type: "AWS::AppSync::GraphQLApi"
+      Properties:
+        Name: "Pick2DoorAppSyncAPI"
+
+    Pick2DoorGraphApiSchema:
+      Type: "AWS::AppSync::GraphQLSchema"
+      Properties:
+        ApiId:
+          Fn::GetAtt:
+            - "Pick2DoorAppSyncAPI"
+            - "ApiId"
+        Definition:
+          Fn::Sub: "${file(schema.graphql)}"
+
+    GetCustomerDataSource:
+      Type: "AWS::AppSync::DataSource"
+      Properties:
+        Name: "GetCustomerDataSource"
+        Type: "AWS_LAMBDA"
+        # ServiceRoleArn: { Fn::GetAtt: [AppSyncServiceRole, Arn] }
+        ApiId:
+          Fn::GetAtt:
+            - "iHelpGraphApi"
+            - "ApiId"
+        LambdaConfig:
+          LambdaFunctionArn:
+            Fn::GetAtt:
+              - GetCustomerLambdaFunction
+              - Arn
+
+    GetCustomerQueryResolver:
+      Type: "AWS::AppSync::Resolver"
+      Properties:
+        ApiId:
+          Fn::GetAtt:
+            - "iHelpGraphApi"
+            - "ApiId"
+        TypeName: "Query"
+        FieldName: "getCustomer"
+        DataSourceName:
+          Fn::GetAtt:
+            - "GetCustomerDataSource"
+            - "Name"
