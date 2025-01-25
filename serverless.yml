@@ -23,12 +23,24 @@ functions:
 
 resources:
   Resources:
+    # AppSync API Definition
     Pick2DoorAppSyncAPI:
       Type: "AWS::AppSync::GraphQLApi"
       Properties:
         Name: "Pick2DoorAppSyncAPI"
         AuthenticationType: "API_KEY"
 
+    # Fix: Ensure expiration is valid for at least 1 day (24 hours)
+    Pick2DoorAppSyncAPIKey:
+      Type: "AWS::AppSync::ApiKey"
+      Properties:
+        ApiId:
+          Fn::GetAtt:
+            - "Pick2DoorAppSyncAPI"
+            - "ApiId"
+        Expires: 1765497600 # Expires on December 12, 2025
+
+    # GraphQL Schema Definition
     Pick2DoorGraphApiSchema:
       Type: "AWS::AppSync::GraphQLSchema"
       Properties:
@@ -39,6 +51,32 @@ resources:
         Definition:
           Fn::Sub: "${file(schema.graphql)}"
 
+    # IAM Role for AppSync to invoke Lambda functions
+    AppSyncServiceRole:
+      Type: "AWS::IAM::Role"
+      Properties:
+        RoleName: "Pick2DoorAppSyncServiceRole"
+        AssumeRolePolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Effect: "Allow"
+              Principal:
+                Service: "appsync.amazonaws.com"
+              Action: "sts:AssumeRole"
+        Policies:
+          - PolicyName: "AppSyncLambdaInvokePolicy"
+            PolicyDocument:
+              Version: "2012-10-17"
+              Statement:
+                - Effect: "Allow"
+                  Action:
+                    - "lambda:InvokeFunction"
+                  Resource:
+                    - Fn::GetAtt:
+                        - GetCustomerLambdaFunction
+                        - Arn
+
+    # Data Source linking AppSync to Lambda function
     GetCustomerDataSource:
       Type: "AWS::AppSync::DataSource"
       Properties:
@@ -48,12 +86,17 @@ resources:
           Fn::GetAtt:
             - "Pick2DoorAppSyncAPI"
             - "ApiId"
+        ServiceRoleArn:
+          Fn::GetAtt:
+            - "AppSyncServiceRole"
+            - "Arn"
         LambdaConfig:
           LambdaFunctionArn:
             Fn::GetAtt:
               - GetCustomerLambdaFunction
               - Arn
 
+    # Resolver to connect GraphQL query to Lambda function
     GetCustomerQueryResolver:
       Type: "AWS::AppSync::Resolver"
       Properties:
@@ -67,3 +110,18 @@ resources:
           Fn::GetAtt:
             - "GetCustomerDataSource"
             - "Name"
+
+  Outputs:
+    GraphQLAPIEndpoint:
+      Value:
+        Fn::GetAtt:
+          - "Pick2DoorAppSyncAPI"
+          - "GraphQLUrl"
+      Export:
+        Name: "GraphQLAPIEndpoint"
+
+    GraphQLAPIKey:
+      Value:
+        Ref: "Pick2DoorAppSyncAPIKey"
+      Export:
+        Name: "GraphQLAPIKey"
