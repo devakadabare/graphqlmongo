@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/devakadabare/graphqlmongo/issues"
   },
-  "homepage": "https://github.com/devakadabare/graphqlmongo#readme"
+  "homepage": "https://github.com/devakadabare/graphqlmongo#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "mongoose": "^8.9.5"
+  }
 }

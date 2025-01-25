@@ -15,8 +15,8 @@ provider:
       Resource: "*"
 
 functions:
-  function1:
-    handler: index.handler
+  createUser:
+    handler: index.createUser
 
   getCustomer:
     handler: index.getCustomer
