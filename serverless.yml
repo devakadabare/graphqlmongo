@@ -1,10 +1,18 @@
-service: pick-to-door
+service: pick-to-door-dev
 frameworkVersion: "3"
 
 provider:
   name: aws
   runtime: nodejs18.x
   region: "ap-south-1"
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "logs:CreateLogGroup"
+        - "logs:DescribeLogGroups"
+        - "logs:CreateLogStream"
+        - "logs:PutLogEvents"
+      Resource: "*"
 
 functions:
   function1:
@@ -19,6 +27,7 @@ resources:
       Type: "AWS::AppSync::GraphQLApi"
       Properties:
         Name: "Pick2DoorAppSyncAPI"
+        AuthenticationType: "API_KEY"
 
     Pick2DoorGraphApiSchema:
       Type: "AWS::AppSync::GraphQLSchema"
@@ -35,10 +44,9 @@ resources:
       Properties:
         Name: "GetCustomerDataSource"
         Type: "AWS_LAMBDA"
-        # ServiceRoleArn: { Fn::GetAtt: [AppSyncServiceRole, Arn] }
         ApiId:
           Fn::GetAtt:
-            - "iHelpGraphApi"
+            - "Pick2DoorAppSyncAPI"
             - "ApiId"
         LambdaConfig:
           LambdaFunctionArn:
@@ -51,7 +59,7 @@ resources:
       Properties:
         ApiId:
           Fn::GetAtt:
-            - "iHelpGraphApi"
+            - "Pick2DoorAppSyncAPI"
             - "ApiId"
         TypeName: "Query"
         FieldName: "getCustomer"
