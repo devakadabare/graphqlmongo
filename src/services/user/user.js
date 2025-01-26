@@ -13,12 +13,7 @@ export const createUser = async (event) => {
 
         // Check if user already exists
         const existingUser = await User.findOne({ email: requestBody.email });
-        if (existingUser) {
-            return {
-                statusCode: 400,
-                body: JSON.stringify({ message: 'User already exists' }),
-            };
-        }
+        if (existingUser) return { statusCode: 400, body: JSON.stringify({ message: 'User already exists' }) };
 
         // Hash the password before saving
         const salt = await bcrypt.genSalt(10);
@@ -37,19 +32,13 @@ export const createUser = async (event) => {
 
         return {
             statusCode: 201,
-            body: JSON.stringify({
-                message: 'User created successfully',
-                userId: newUser._id,
-            }),
+            body: JSON.stringify({ message: 'User created successfully', userId: newUser._id }),
         };
     } catch (error) {
         console.error('Error creating user:', error);
         return {
             statusCode: 500,
-            body: JSON.stringify({
-                message: 'Error creating user',
-                error: error.message,
-            }),
+            body: JSON.stringify({ message: 'Error creating user', error: error.message }),
         };
     }
 };

@@ -1,3 +1,3 @@
-const { createUser } = require('./src/service/user');
+const userService = require('./src/service/user');
 
-module.exports.createUser = async (event) => await createUser(event);
+module.exports.createUser = async (event) => await userService.createUser(event);

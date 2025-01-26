@@ -1,20 +1,18 @@
-type Customer {
-  id: ID
-  nickName: String
-  firstName: String
-  lastName: String
-  email: String
-  countryCode: String
-  mobile: String
-  address: String
-  status: String
-  createdAt: String
+type User {
+    id: ID!
+    mobile: String!
+    password: String!
 }
 
 type Query {
-  getCustomer(id: ID!): Customer
+    getUser(id: ID!): User
+}
+
+type Mutation {
+    createUser(mobile: String!, password: String!): User
 }
 
 schema {
-  query: Query
+    query: Query
+    mutation: Mutation
 }

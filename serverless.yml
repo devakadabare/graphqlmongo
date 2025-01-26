@@ -18,9 +18,6 @@ functions:
   createUser:
     handler: index.createUser
 
-  getCustomer:
-    handler: index.getCustomer
-
 resources:
   Resources:
     # AppSync API Definition
@@ -30,7 +27,6 @@ resources:
         Name: "Pick2DoorAppSyncAPI"
         AuthenticationType: "API_KEY"
 
-    # Fix: Ensure expiration is valid for at least 1 day (24 hours)
     Pick2DoorAppSyncAPIKey:
       Type: "AWS::AppSync::ApiKey"
       Properties:
@@ -73,14 +69,14 @@ resources:
                     - "lambda:InvokeFunction"
                   Resource:
                     - Fn::GetAtt:
-                        - GetCustomerLambdaFunction
+                        - CreateUserLambdaFunction
                         - Arn
 
-    # Data Source linking AppSync to Lambda function
-    GetCustomerDataSource:
+    # Data Source linking AppSync to Lambda function for CreateUser
+    CreateUserDataSource:
       Type: "AWS::AppSync::DataSource"
       Properties:
-        Name: "GetCustomerDataSource"
+        Name: "CreateUserDataSource"
         Type: "AWS_LAMBDA"
         ApiId:
           Fn::GetAtt:
@@ -93,22 +89,22 @@ resources:
         LambdaConfig:
           LambdaFunctionArn:
             Fn::GetAtt:
-              - GetCustomerLambdaFunction
+              - CreateUserLambdaFunction
               - Arn
 
-    # Resolver to connect GraphQL query to Lambda function
-    GetCustomerQueryResolver:
+    # Resolver to connect GraphQL mutation to Lambda function for CreateUser
+    CreateUserMutationResolver:
       Type: "AWS::AppSync::Resolver"
       Properties:
         ApiId:
           Fn::GetAtt:
             - "Pick2DoorAppSyncAPI"
             - "ApiId"
-        TypeName: "Query"
-        FieldName: "getCustomer"
+        TypeName: "Mutation"
+        FieldName: "createUser"
         DataSourceName:
           Fn::GetAtt:
-            - "GetCustomerDataSource"
+            - "CreateUserDataSource"
             - "Name"
 
   Outputs:
