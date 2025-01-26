@@ -1,4 +1,6 @@
+const { HTTP_STATUS } = require('../../constants/statusCodes');
 const connectToDatabase = require('../../database/database');
+const { errorResponse } = require('../../helper/response');
 const User = require('../../models/user');
 const bcrypt = require('bcryptjs');
 
@@ -6,37 +8,29 @@ const createUser = async (event) => {
     try {
         await connectToDatabase();
 
-        const requestBody = event.body;
+        const requestBody = event.arguments;
 
         // Check if user already exists
-        const existingUser = await User.findOne({ mobileNumber: requestBody.mobileNumber });
-        if (existingUser) return { statusCode: 400, body: JSON.stringify({ message: 'User already exists' }) };
+        const existingUser = await User.findOne({ mobile: requestBody.mobile });
+        if (existingUser) return errorResponse('user already exists', HTTP_STATUS.CONFLICT);
 
         // Hash the password before saving
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(requestBody.password, salt);
 
         const newUser = new User({
-            mobileNumber: requestBody.mobileNumber,
-            passwordHash: hashedPassword,
+            mobile: requestBody.mobile,
+            password: hashedPassword,
             roles: requestBody.roles, // Assuming roles are passed as ObjectIds
         });
 
-        await newUser.save();
+        const res = await newUser.save();
 
-        return {
-            statusCode: 201,
-            body: JSON.stringify({ message: 'User created successfully', userId: newUser._id }),
-        };
+        return { _id: res._id, mobile: res.mobile, password: res.password };
     } catch (error) {
         console.error('Error creating user:', error);
-        return {
-            statusCode: 500,
-            body: JSON.stringify({ message: 'Error creating user', error: error.message }),
-        };
+        return errorResponse(error.message, HTTP_STATUS.BAD_REQUEST);
     }
 };
 
-module.exports = {
-    createUser,
-};
+module.exports = { createUser };

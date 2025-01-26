@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema(
     {
-        mobileNumber: { type: String, required: true, unique: true }, // monile and country code
-        passwordHash: { type: String, required: true },
+        mobile: { type: String, required: true, unique: true }, // monile and country code
+        password: { type: String, required: true },
         roles: [
             {
                 type: mongoose.Schema.Types.ObjectId,

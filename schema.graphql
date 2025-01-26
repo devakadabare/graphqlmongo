@@ -1,11 +1,16 @@
 type User {
-    id: ID!
+    _id: ID
     mobile: String!
     password: String!
 }
 
+type Error {
+    message: String!
+    code: String!
+}
+
 type Query {
-    getUser(id: ID!): User
+    getUser(_id: ID!): User
 }
 
 type Mutation {
