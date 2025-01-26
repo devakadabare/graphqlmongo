@@ -2,17 +2,14 @@ const connectToDatabase = require('../../database/database');
 const User = require('../../models/user');
 const bcrypt = require('bcryptjs');
 
-export const createUser = async (event) => {
-    console.log('====================================');
-    console.log(event);
-    console.log('====================================');
+const createUser = async (event) => {
     try {
         await connectToDatabase();
 
-        const requestBody = JSON.parse(event.body);
+        const requestBody = event.body;
 
         // Check if user already exists
-        const existingUser = await User.findOne({ email: requestBody.email });
+        const existingUser = await User.findOne({ mobileNumber: requestBody.mobileNumber });
         if (existingUser) return { statusCode: 400, body: JSON.stringify({ message: 'User already exists' }) };
 
         // Hash the password before saving
@@ -21,9 +18,6 @@ export const createUser = async (event) => {
 
         const newUser = new User({
             mobileNumber: requestBody.mobileNumber,
-            email: requestBody.email,
-            name: requestBody.name,
-            gender: requestBody.gender,
             passwordHash: hashedPassword,
             roles: requestBody.roles, // Assuming roles are passed as ObjectIds
         });
@@ -41,4 +35,8 @@ export const createUser = async (event) => {
             body: JSON.stringify({ message: 'Error creating user', error: error.message }),
         };
     }
+};
+
+module.exports = {
+    createUser,
 };
