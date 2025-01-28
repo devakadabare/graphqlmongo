@@ -1,12 +1,19 @@
 type User {
-    _id: ID
+    _id: ID!
     mobile: String!
-    password: String!
+    roles: [String]
+    createdAt: String
+    updatedAt: String
 }
 
-type Error {
-    message: String!
-    code: String!
+type Customer {
+    _id: ID!
+    email: String!
+    name: String!
+    gender: String!
+    user: User
+    createdAt: String
+    updatedAt: String
 }
 
 type Query {
@@ -14,7 +21,7 @@ type Query {
 }
 
 type Mutation {
-    createUser(mobile: String!, password: String!): User
+    createCustomer(name: String!, mobile: String!, email: String!, gender: String!): Customer
 }
 
 schema {

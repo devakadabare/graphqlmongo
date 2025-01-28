@@ -2,11 +2,12 @@ const mongoose = require('mongoose');
 
 const customerSchema = new mongoose.Schema(
     {
-        email: { type: String, required: true, unique: true },
         name: { type: String, required: true },
-        gender: { type: String, enum: ['Male', 'Female', 'Other'], required: true },
+        email: { type: String, required: true },
+        gender: { type: String, required: true },
+        user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     },
-    { timestamps: true } // Automatically adds createdAt and updatedAt fields
+    { timestamps: true }
 );
 
 module.exports = mongoose.model('Customer', customerSchema);

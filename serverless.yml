@@ -17,8 +17,8 @@ provider:
       Resource: "*"
 
 functions:
-  createUser:
-    handler: index.createUser
+  createCustomer:
+    handler: index.createCustomer
 
 resources:
   Resources:
@@ -71,14 +71,14 @@ resources:
                     - "lambda:InvokeFunction"
                   Resource:
                     - Fn::GetAtt:
-                        - CreateUserLambdaFunction
+                        - CreateCustomerLambdaFunction
                         - Arn
 
-    # Data Source linking AppSync to Lambda function for CreateUser
-    CreateUserDataSource:
+    # Data Source linking AppSync to Lambda function for CreateCustomer
+    CreateCustomerDataSource:
       Type: "AWS::AppSync::DataSource"
       Properties:
-        Name: "CreateUserDataSource"
+        Name: "CreateCustomerDataSource"
         Type: "AWS_LAMBDA"
         ApiId:
           Fn::GetAtt:
@@ -91,11 +91,11 @@ resources:
         LambdaConfig:
           LambdaFunctionArn:
             Fn::GetAtt:
-              - CreateUserLambdaFunction
+              - CreateCustomerLambdaFunction
               - Arn
 
-    # Resolver to connect GraphQL mutation to Lambda function for CreateUser
-    CreateUserMutationResolver:
+    # Resolver to connect GraphQL mutation to Lambda function for CreateCustomer
+    CreateCustomerMutationResolver:
       Type: "AWS::AppSync::Resolver"
       Properties:
         ApiId:
@@ -103,10 +103,10 @@ resources:
             - "Pick2DoorAppSyncAPI"
             - "ApiId"
         TypeName: "Mutation"
-        FieldName: "createUser"
+        FieldName: "createCustomer"
         DataSourceName:
           Fn::GetAtt:
-            - "CreateUserDataSource"
+            - "CreateCustomerDataSource"
             - "Name"
 
   Outputs:

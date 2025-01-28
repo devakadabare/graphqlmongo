@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const userSchema = new mongoose.Schema(
     {
         mobile: { type: String, required: true, unique: true }, // monile and country code
-        password: { type: String, required: true },
         roles: [
             {
                 type: mongoose.Schema.Types.ObjectId,
