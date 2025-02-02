@@ -19,6 +19,10 @@ provider:
 functions:
   createCustomer:
     handler: index.createCustomer
+  getCustomer:
+    handler: index.getCustomer
+  sendOtp:
+    handler: index.sendOtp
 
 resources:
   Resources:
@@ -73,6 +77,12 @@ resources:
                     - Fn::GetAtt:
                         - CreateCustomerLambdaFunction
                         - Arn
+                    - Fn::GetAtt:
+                        - GetCustomerLambdaFunction
+                        - Arn
+                    - Fn::GetAtt:
+                        - SendOtpLambdaFunction
+                        - Arn
 
     # Data Source linking AppSync to Lambda function for CreateCustomer
     CreateCustomerDataSource:
@@ -94,6 +104,44 @@ resources:
               - CreateCustomerLambdaFunction
               - Arn
 
+    SendOtpDataSource:
+      Type: "AWS::AppSync::DataSource"
+      Properties:
+        Name: "SendOtpDataSource"
+        Type: "AWS_LAMBDA"
+        ApiId:
+          Fn::GetAtt:
+            - "Pick2DoorAppSyncAPI"
+            - "ApiId"
+        ServiceRoleArn:
+          Fn::GetAtt:
+            - "AppSyncServiceRole"
+            - "Arn"
+        LambdaConfig:
+          LambdaFunctionArn:
+            Fn::GetAtt:
+              - SendOtpLambdaFunction
+              - Arn
+
+    GetCustomerDataSource:
+      Type: "AWS::AppSync::DataSource"
+      Properties:
+        Name: "GetCustomerDataSource"
+        Type: "AWS_LAMBDA"
+        ApiId:
+          Fn::GetAtt:
+            - "Pick2DoorAppSyncAPI"
+            - "ApiId"
+        ServiceRoleArn:
+          Fn::GetAtt:
+            - "AppSyncServiceRole"
+            - "Arn"
+        LambdaConfig:
+          LambdaFunctionArn:
+            Fn::GetAtt:
+              - GetCustomerLambdaFunction
+              - Arn
+
     # Resolver to connect GraphQL mutation to Lambda function for CreateCustomer
     CreateCustomerMutationResolver:
       Type: "AWS::AppSync::Resolver"
@@ -107,6 +155,34 @@ resources:
         DataSourceName:
           Fn::GetAtt:
             - "CreateCustomerDataSource"
+            - "Name"
+
+    SendOtpMutationResolver:
+      Type: "AWS::AppSync::Resolver"
+      Properties:
+        ApiId:
+          Fn::GetAtt:
+            - "Pick2DoorAppSyncAPI"
+            - "ApiId"
+        TypeName: "Mutation"
+        FieldName: "sendOtp"
+        DataSourceName:
+          Fn::GetAtt:
+            - "SendOtpDataSource"
+            - "Name"
+
+    GetCustomerQueryResolver:
+      Type: "AWS::AppSync::Resolver"
+      Properties:
+        ApiId:
+          Fn::GetAtt:
+            - "Pick2DoorAppSyncAPI"
+            - "ApiId"
+        TypeName: "Query"
+        FieldName: "getCustomer"
+        DataSourceName:
+          Fn::GetAtt:
+            - "GetCustomerDataSource"
             - "Name"
 
   Outputs:

@@ -16,12 +16,17 @@ type Customer {
     updatedAt: String
 }
 
+type Otp {
+    otpId: ID!
+}
+
 type Query {
-    getUser(_id: ID!): User
+    getCustomer(customerId: ID!): Customer
 }
 
 type Mutation {
     createCustomer(name: String!, mobile: String!, email: String!, gender: String!): Customer
+    sendOtp(mobile: String!): Otp
 }
 
 schema {

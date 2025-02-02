@@ -1,1 +1,30 @@
-dotenv -e .env -- serverless invoke local --function createUser --path input.json
+dotenv -e .env -- serverless invoke local --function sendOtp --path input.json
+
+{
+    "mobile":"0778801223",
+    "name":"kalana",
+    "email":"kalana@picktodoor.com",
+    "gender:"Male"
+}
+
+1. implement sendOTP
+    - response only OTPID
+2. create a model to store OTP
+    - countryCode
+    - phoneNumber
+    - OTP
+    - expireAt
+
+3. verifyOtpAndCreateCustomer
+    inputs
+        - otpId
+        - OTP
+        - customer details
+
+
+---------------
+
+bring connectToDatatbase into middleware alike
+
+
+create controller layer.
