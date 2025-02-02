@@ -1,6 +1,6 @@
-const connectToDatabase = require('../../database/database');
-const Customer = require('../../models/customer');
-const User = require('../../models/user');
+const connectToDatabase = require('../database/database');
+const Customer = require('../models/customer');
+const User = require('../models/user');
 
 const createCustomer = async (requestBody) => {
     try {

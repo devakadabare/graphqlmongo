@@ -25,7 +25,7 @@ type Query {
 }
 
 type Mutation {
-    createCustomer(name: String!, mobile: String!, email: String!, gender: String!): Customer
+    createCustomer(name: String!, mobile: String!, email: String!, gender: String!, otpId: String!): Customer
     sendOtp(mobile: String!): Otp
 }
 

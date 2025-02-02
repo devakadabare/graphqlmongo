@@ -1,5 +1,6 @@
-const connectToDatabase = require('../../database/database');
-const Otp = require('../../models/otp');
+const connectToDatabase = require('../database/database');
+const Otp = require('../models/otp');
+const { generateOtp } = require('../util/auth-util');
 
 const sendOtp = async (data) => {
     try {
@@ -7,7 +8,7 @@ const sendOtp = async (data) => {
 
         await connectToDatabase();
 
-        const generatedOtp = Math.floor(100000 + Math.random() * 900000).toString(); // 6-digit OTP
+        const generatedOtp = generateOtp();
 
         const newOtp = new Otp({
             mobile,

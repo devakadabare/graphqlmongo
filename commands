@@ -1,10 +1,11 @@
 dotenv -e .env -- serverless invoke local --function sendOtp --path input.json
 
 {
-    "mobile":"0778801223",
-    "name":"kalana",
-    "email":"kalana@picktodoor.com",
-    "gender:"Male"
+        "mobile": "0779999999",
+        "name": "kalana",
+        "email": "kalana@picktodoor.com",
+        "gender": "Male",
+        "otpId": "679fae1518ef4fd6bace0ab6"
 }
 
 1. implement sendOTP
