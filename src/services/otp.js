@@ -4,13 +4,14 @@ const { generateOtp } = require('../util/auth-util');
 
 const sendOtp = async (data) => {
     try {
-        const { mobile } = data;
+        const { countryCode, mobile } = data;
 
         await connectToDatabase();
 
         const generatedOtp = generateOtp();
 
         const newOtp = new Otp({
+            countryCode,
             mobile,
             otp: generatedOtp,
         });
@@ -19,7 +20,7 @@ const sendOtp = async (data) => {
 
         return { otpId: createdOtp.id };
     } catch (error) {
-        console.error('Error creating otp:', error);
+        console.error('Error creating OTP:', error);
         throw new Error(error.message);
     }
 };

@@ -6,12 +6,15 @@ const registerCustomer = async (requestBody) => {
     try {
         await connectToDatabase();
 
+        const { countryCode, mobile, roles, name, email, gender } = requestBody;
+
         // Check if the User exists, if not create a new one
-        let existingUser = await User.findOne({ mobile: requestBody.mobile });
+        let existingUser = await User.findOne({ countryCode, mobile });
         if (!existingUser) {
             existingUser = new User({
-                mobile: requestBody.mobile,
-                roles: requestBody.roles || [],
+                countryCode,
+                mobile,
+                roles: roles || [],
             });
             await existingUser.save();
         }
@@ -22,9 +25,9 @@ const registerCustomer = async (requestBody) => {
 
         // Create a new Customer
         const newCustomer = new Customer({
-            name: requestBody.name,
-            email: requestBody.email,
-            gender: requestBody.gender,
+            name,
+            email,
+            gender,
             user: existingUser._id, // Save the ID of the User
         });
 

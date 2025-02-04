@@ -4,7 +4,7 @@ const { verifyOtp } = require('../util/auth-util');
 const registerCustomer = async (data) => {
     const { otpId, ...rest } = data;
 
-    const isOtpVerified = await verifyOtp(otpId, rest.mobile);
+    const isOtpVerified = await verifyOtp(otpId, rest.countryCode, rest.mobile);
 
     if (isOtpVerified) {
         return await customerService.registerCustomer(rest);
