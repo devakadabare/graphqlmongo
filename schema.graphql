@@ -28,10 +28,6 @@ type Otp {
     otpId: ID!
 }
 
-type Query {
-    getCustomer(customerId: ID!): Customer
-}
-
 input sendOtpInput {
     countryCode: String!
     mobile: String!
@@ -47,6 +43,9 @@ input registerCustomerInput {
     otp: String!
 }
 
+type Query {
+    getCustomer(customerId: ID!): Customer
+}
 
 type Mutation {
     registerCustomer(input: registerCustomerInput): Customer
