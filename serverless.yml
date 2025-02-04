@@ -1,24 +1,24 @@
 service: pick-to-door-dev
-frameworkVersion: "3"
+frameworkVersion: '3'
 
 provider:
   name: aws
   runtime: nodejs18.x
-  region: "ap-south-1"
+  region: ap-south-1
   environment:
     MONGO_URI: mongodb+srv://pick2doorDbUser:xWl9bQrnZmmXYYK1@pick2door.syhdb.mongodb.net/pick-to-door
   iamRoleStatements:
-    - Effect: "Allow"
+    - Effect: Allow
       Action:
-        - "logs:CreateLogGroup"
-        - "logs:DescribeLogGroups"
-        - "logs:CreateLogStream"
-        - "logs:PutLogEvents"
-      Resource: "*"
+        - logs:CreateLogGroup
+        - logs:DescribeLogGroups
+        - logs:CreateLogStream
+        - logs:PutLogEvents
+      Resource: '*'
 
 functions:
-  createCustomer:
-    handler: index.createCustomer
+  registerCustomer:
+    handler: index.registerCustomer
   getCustomer:
     handler: index.getCustomer
   sendOtp:
@@ -28,174 +28,112 @@ resources:
   Resources:
     # AppSync API Definition
     Pick2DoorAppSyncAPI:
-      Type: "AWS::AppSync::GraphQLApi"
+      Type: AWS::AppSync::GraphQLApi
       Properties:
-        Name: "Pick2DoorAppSyncAPI"
-        AuthenticationType: "API_KEY"
+        Name: Pick2DoorAppSyncAPI
+        AuthenticationType: API_KEY
 
     Pick2DoorAppSyncAPIKey:
-      Type: "AWS::AppSync::ApiKey"
+      Type: AWS::AppSync::ApiKey
       Properties:
-        ApiId:
-          Fn::GetAtt:
-            - "Pick2DoorAppSyncAPI"
-            - "ApiId"
+        ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
         Expires: 1765497600 # Expires on December 12, 2025
 
     # GraphQL Schema Definition
     Pick2DoorGraphApiSchema:
-      Type: "AWS::AppSync::GraphQLSchema"
+      Type: AWS::AppSync::GraphQLSchema
       Properties:
-        ApiId:
-          Fn::GetAtt:
-            - "Pick2DoorAppSyncAPI"
-            - "ApiId"
-        Definition:
-          Fn::Sub: "${file(schema.graphql)}"
+        ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
+        Definition: !Sub ${file(schema.graphql)}
 
     # IAM Role for AppSync to invoke Lambda functions
     AppSyncServiceRole:
-      Type: "AWS::IAM::Role"
+      Type: AWS::IAM::Role
       Properties:
-        RoleName: "Pick2DoorAppSyncServiceRole"
+        RoleName: Pick2DoorAppSyncServiceRole
         AssumeRolePolicyDocument:
-          Version: "2012-10-17"
+          Version: '2012-10-17'
           Statement:
-            - Effect: "Allow"
+            - Effect: Allow
               Principal:
-                Service: "appsync.amazonaws.com"
-              Action: "sts:AssumeRole"
+                Service: appsync.amazonaws.com
+              Action: sts:AssumeRole
         Policies:
-          - PolicyName: "AppSyncLambdaInvokePolicy"
+          - PolicyName: AppSyncLambdaInvokePolicy
             PolicyDocument:
-              Version: "2012-10-17"
+              Version: '2012-10-17'
               Statement:
-                - Effect: "Allow"
+                - Effect: Allow
                   Action:
-                    - "lambda:InvokeFunction"
+                    - lambda:InvokeFunction
                   Resource:
-                    - Fn::GetAtt:
-                        - CreateCustomerLambdaFunction
-                        - Arn
-                    - Fn::GetAtt:
-                        - GetCustomerLambdaFunction
-                        - Arn
-                    - Fn::GetAtt:
-                        - SendOtpLambdaFunction
-                        - Arn
+                    - !GetAtt RegisterCustomerLambdaFunction.Arn
+                    - !GetAtt GetCustomerLambdaFunction.Arn
+                    - !GetAtt SendOtpLambdaFunction.Arn
 
-    # Data Source linking AppSync to Lambda function for CreateCustomer
-    CreateCustomerDataSource:
-      Type: "AWS::AppSync::DataSource"
+    # Data Source linking AppSync to Lambda function for RegisterCustomer
+    RegisterCustomerDataSource:
+      Type: AWS::AppSync::DataSource
       Properties:
-        Name: "CreateCustomerDataSource"
-        Type: "AWS_LAMBDA"
-        ApiId:
-          Fn::GetAtt:
-            - "Pick2DoorAppSyncAPI"
-            - "ApiId"
-        ServiceRoleArn:
-          Fn::GetAtt:
-            - "AppSyncServiceRole"
-            - "Arn"
+        Name: RegisterCustomerDataSource
+        Type: AWS_LAMBDA
+        ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
+        ServiceRoleArn: !GetAtt AppSyncServiceRole.Arn
         LambdaConfig:
-          LambdaFunctionArn:
-            Fn::GetAtt:
-              - CreateCustomerLambdaFunction
-              - Arn
+          LambdaFunctionArn: !GetAtt RegisterCustomerLambdaFunction.Arn
 
     SendOtpDataSource:
-      Type: "AWS::AppSync::DataSource"
+      Type: AWS::AppSync::DataSource
       Properties:
-        Name: "SendOtpDataSource"
-        Type: "AWS_LAMBDA"
-        ApiId:
-          Fn::GetAtt:
-            - "Pick2DoorAppSyncAPI"
-            - "ApiId"
-        ServiceRoleArn:
-          Fn::GetAtt:
-            - "AppSyncServiceRole"
-            - "Arn"
+        Name: SendOtpDataSource
+        Type: AWS_LAMBDA
+        ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
+        ServiceRoleArn: !GetAtt AppSyncServiceRole.Arn
         LambdaConfig:
-          LambdaFunctionArn:
-            Fn::GetAtt:
-              - SendOtpLambdaFunction
-              - Arn
+          LambdaFunctionArn: !GetAtt SendOtpLambdaFunction.Arn
 
     GetCustomerDataSource:
-      Type: "AWS::AppSync::DataSource"
+      Type: AWS::AppSync::DataSource
       Properties:
-        Name: "GetCustomerDataSource"
-        Type: "AWS_LAMBDA"
-        ApiId:
-          Fn::GetAtt:
-            - "Pick2DoorAppSyncAPI"
-            - "ApiId"
-        ServiceRoleArn:
-          Fn::GetAtt:
-            - "AppSyncServiceRole"
-            - "Arn"
+        Name: GetCustomerDataSource
+        Type: AWS_LAMBDA
+        ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
+        ServiceRoleArn: !GetAtt AppSyncServiceRole.Arn
         LambdaConfig:
-          LambdaFunctionArn:
-            Fn::GetAtt:
-              - GetCustomerLambdaFunction
-              - Arn
+          LambdaFunctionArn: !GetAtt GetCustomerLambdaFunction.Arn
 
-    # Resolver to connect GraphQL mutation to Lambda function for CreateCustomer
-    CreateCustomerMutationResolver:
-      Type: "AWS::AppSync::Resolver"
+    # Resolver to connect GraphQL mutation to Lambda function for RegisterCustomer
+    RegisterCustomerMutationResolver:
+      Type: AWS::AppSync::Resolver
       Properties:
-        ApiId:
-          Fn::GetAtt:
-            - "Pick2DoorAppSyncAPI"
-            - "ApiId"
-        TypeName: "Mutation"
-        FieldName: "createCustomer"
-        DataSourceName:
-          Fn::GetAtt:
-            - "CreateCustomerDataSource"
-            - "Name"
+        ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
+        TypeName: Mutation
+        FieldName: registerCustomer
+        DataSourceName: !GetAtt RegisterCustomerDataSource.Name
 
     SendOtpMutationResolver:
-      Type: "AWS::AppSync::Resolver"
+      Type: AWS::AppSync::Resolver
       Properties:
-        ApiId:
-          Fn::GetAtt:
-            - "Pick2DoorAppSyncAPI"
-            - "ApiId"
-        TypeName: "Mutation"
-        FieldName: "sendOtp"
-        DataSourceName:
-          Fn::GetAtt:
-            - "SendOtpDataSource"
-            - "Name"
+        ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
+        TypeName: Mutation
+        FieldName: sendOtp
+        DataSourceName: !GetAtt SendOtpDataSource.Name
 
     GetCustomerQueryResolver:
-      Type: "AWS::AppSync::Resolver"
+      Type: AWS::AppSync::Resolver
       Properties:
-        ApiId:
-          Fn::GetAtt:
-            - "Pick2DoorAppSyncAPI"
-            - "ApiId"
-        TypeName: "Query"
-        FieldName: "getCustomer"
-        DataSourceName:
-          Fn::GetAtt:
-            - "GetCustomerDataSource"
-            - "Name"
+        ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
+        TypeName: Query
+        FieldName: getCustomer
+        DataSourceName: !GetAtt GetCustomerDataSource.Name
 
   Outputs:
     GraphQLAPIEndpoint:
-      Value:
-        Fn::GetAtt:
-          - "Pick2DoorAppSyncAPI"
-          - "GraphQLUrl"
+      Value: !GetAtt Pick2DoorAppSyncAPI.GraphQLUrl
       Export:
-        Name: "GraphQLAPIEndpoint"
+        Name: GraphQLAPIEndpoint
 
     GraphQLAPIKey:
-      Value:
-        Ref: "Pick2DoorAppSyncAPIKey"
+      Value: !Ref Pick2DoorAppSyncAPIKey
       Export:
-        Name: "GraphQLAPIKey"
+        Name: GraphQLAPIKey

@@ -2,7 +2,7 @@ const connectToDatabase = require('../database/database');
 const Customer = require('../models/customer');
 const User = require('../models/user');
 
-const createCustomer = async (requestBody) => {
+const registerCustomer = async (requestBody) => {
     try {
         await connectToDatabase();
 
@@ -52,4 +52,4 @@ const getCustomer = async (customerId) => {
     }
 };
 
-module.exports = { createCustomer, getCustomer };
+module.exports = { registerCustomer, getCustomer };
