@@ -7,3 +7,7 @@ jspm_packages
 
 # .env
 .env
+
+
+*.lock
+*lock.json
