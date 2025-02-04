@@ -3,10 +3,12 @@
         "username": "558ea2e5-6d33-425e-8987-70646888136a"
     },
     "arguments": {
-        "mobile": "0779999991",
+        "mobile": "67a236d0b6200b0baa7f1973",
+        "countryCode": "94",
         "name": "kalana",
         "email": "kalana1@picktodoor.com",
         "gender": "Male",
-        "otpId": "679fae1518ef4fd6bace0ab6"
-}
+        "otpId": "67a231818c47f5581313953f",
+        "otp": "357304"
+    }
 }

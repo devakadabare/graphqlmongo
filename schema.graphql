@@ -2,7 +2,14 @@ type User {
     _id: ID!
     countryCode: String!
     mobile: String!
-    roles: [String]
+    roles: [Role]!
+    createdAt: String
+    updatedAt: String
+}
+
+type Role {
+    _id: ID!
+    name: String!
     createdAt: String
     updatedAt: String
 }
@@ -25,9 +32,25 @@ type Query {
     getCustomer(customerId: ID!): Customer
 }
 
+input sendOtpInput {
+    countryCode: String!
+    mobile: String!
+}
+
+input registerCustomerInput {
+    name: String!
+    countryCode: String!
+    mobile: String!
+    email: String!
+    gender: String!
+    otpId: String!
+    otp: String!
+}
+
+
 type Mutation {
-    registerCustomer(name: String!, countryCode: String!, mobile: String!, email: String!, gender: String!, otpId: String!): Customer
-    sendOtp(countryCode: String!, mobile: String!): Otp
+    registerCustomer(input: registerCustomerInput): Customer
+    sendOtp(input: sendOtpInput): Otp
 }
 
 schema {

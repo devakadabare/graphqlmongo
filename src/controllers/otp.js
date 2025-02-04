@@ -1,7 +1,7 @@
-const otpService = require('../services/otp');
+const otpUtil = require('../util/auth-util');
 
 const sendOtp = async (data) => {
-    return await otpService.sendOtp(data);
+    return await otpUtil.sendOtp(data);
 };
 
 module.exports = { sendOtp };

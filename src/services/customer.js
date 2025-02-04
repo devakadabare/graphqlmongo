@@ -2,22 +2,11 @@ const connectToDatabase = require('../database/database');
 const Customer = require('../models/customer');
 const User = require('../models/user');
 
-const registerCustomer = async (requestBody) => {
+const createCustomer = async (requestBody) => {
     try {
         await connectToDatabase();
 
-        const { countryCode, mobile, roles, name, email, gender } = requestBody;
-
-        // Check if the User exists, if not create a new one
-        let existingUser = await User.findOne({ countryCode, mobile });
-        if (!existingUser) {
-            existingUser = new User({
-                countryCode,
-                mobile,
-                roles: roles || [],
-            });
-            await existingUser.save();
-        }
+        const { name, email, gender, existingUser } = requestBody;
 
         // Check if the Customer for this User already exists
         const existingCustomer = await Customer.findOne({ user: existingUser._id });
@@ -46,7 +35,14 @@ const getCustomer = async (customerId) => {
         await connectToDatabase();
 
         // Find the customer by ID and populate the user field to include user details
-        const customer = await Customer.findById(customerId).populate('user');
+        const customer = await Customer.findById(customerId)
+            .populate({
+                path: 'user',
+                populate: {
+                    path: 'roles', // Populate the roles inside user
+                    model: 'Role'
+                }
+            });
 
         return customer;
     } catch (error) {
@@ -55,4 +51,4 @@ const getCustomer = async (customerId) => {
     }
 };
 
-module.exports = { registerCustomer, getCustomer };
+module.exports = { createCustomer, getCustomer };
