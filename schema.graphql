@@ -28,6 +28,28 @@ type Otp {
     otpId: ID!
 }
 
+type Location {
+    _id: ID!
+    name: String!
+    address: String!
+    long: String!
+    lat: String!
+    details: String
+    note: String
+    contactName: String
+    contactNo: String
+    type: LocationType!
+    user: User!
+    createdAt: String
+    updatedAt: String
+}
+
+enum LocationType {
+    HOME
+    WORK
+    OTHER
+}
+
 input sendOtpInput {
     countryCode: String!
     mobile: String!
@@ -43,13 +65,28 @@ input registerCustomerInput {
     otp: String!
 }
 
+input createLocationInput {
+    name: String!
+    address: String!
+    long: String!
+    lat: String!
+    details: String
+    note: String
+    contactName: String
+    contactNo: String
+    type: LocationType!
+}
+
 type Query {
     getCustomer(customerId: ID!): Customer
+    getLocationsByUser(userId: ID!): [Location]!
+    getLocation(locationId: ID!): Location
 }
 
 type Mutation {
     registerCustomer(input: registerCustomerInput): Customer
     sendOtp(input: sendOtpInput): Otp
+    createLocation(input: createLocationInput): Location
 }
 
 schema {

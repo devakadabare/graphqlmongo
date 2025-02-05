@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
 
-const roleSchema = new mongoose.Schema({
+const itemTypeSchema = new mongoose.Schema({
     name: { type: String, required: true, unique: true },
+    status: { type: String, required: true, default: 'active' },
     // permissions: [String], // List of permissions assigned to this role
 });
 
-module.exports = mongoose.model('Role', roleSchema);
+module.exports = mongoose.model('ItemType', itemTypeSchema);

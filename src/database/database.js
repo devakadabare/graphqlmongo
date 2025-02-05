@@ -22,4 +22,21 @@ const connectToDatabase = async () => {
     }
 };
 
+//disconnect from database
+const disconnectFromDatabase = async () => {
+    if (!isConnected) {
+        console.log('=> Using existing database connection');
+        return Promise.resolve();
+    }
+
+    try {
+        await mongoose.disconnect();
+        isConnected = false;
+        console.log('=> Disconnected from MongoDB');
+    } catch (error) {
+        console.error('MongoDB disconnection error:', error);
+        throw new Error('Database disconnection failed');
+    }
+};
+
 module.exports = connectToDatabase;
