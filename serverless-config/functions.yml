@@ -1,0 +1,29 @@
+registerCustomer:
+  handler: index.registerCustomer
+
+getCustomer:
+  handler: index.getCustomer
+
+sendOtp:
+  handler: index.sendOtp
+
+createLocation:
+  handler: index.createLocation
+
+getLocationByUser:
+  handler: index.getLocationByUser
+
+getLocation:
+  handler: index.getLocation
+
+getItemTypes:
+  handler: index.getItemTypes
+
+createDeliveryForm:
+  handler: index.createDeliveryForm
+
+getDeliveryForm:
+  handler: index.getDeliveryForm
+
+updateDeliveryData:
+  handler: index.updateDeliveryData

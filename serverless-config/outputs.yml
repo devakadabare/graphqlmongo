@@ -1,0 +1,10 @@
+Outputs:
+  GraphQLAPIEndpoint:
+    Value: !GetAtt Pick2DoorAppSyncAPI.GraphQLUrl
+    Export:
+      Name: GraphQLAPIEndpoint
+
+  GraphQLAPIKey:
+    Value: !Ref Pick2DoorAppSyncAPIKey
+    Export:
+      Name: GraphQLAPIKey

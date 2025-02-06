@@ -1,0 +1,27 @@
+service: pick-to-door-dev
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: ap-south-1
+  environment:
+    MONGO_URI: XXXXX
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - logs:CreateLogGroup
+        - logs:DescribeLogGroups
+        - logs:CreateLogStream
+        - logs:PutLogEvents
+      Resource: '*'
+
+# Import functions, resources, data sources, and resolvers
+functions: ${file(serverless-config/functions.yml)}
+resources:
+  ${file(serverless-config/resources.yml)}
+  ${file(serverless-config/datasources.yml)}
+  ${file(serverless-config/resolvers.yml)}
+
+outputs:
+  ${file(serverless-config/outputs.yml)}
