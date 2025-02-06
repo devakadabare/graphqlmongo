@@ -77,16 +77,90 @@ input createLocationInput {
     type: LocationType!
 }
 
+# DeliveryForm Type
+type DeliveryForm {
+    _id: ID!
+    createdBy: User! # Only a registered user can create a form
+    pickup: DeliveryLocation! # Pickup location, either saved or manual entry
+    recipient: DeliveryRecipient! # Recipient details (can be guest or customer)
+    itemType: ItemType! # Item type selected
+    message: String # Optional message for the recipient
+    createdAt: String
+    updatedAt: String
+}
+
+# Location details used for Pickup & Recipient
+type DeliveryLocation {
+    savedLocation: Location # If user selected a saved location
+    contactName: String
+    contactNo: String
+    address: String
+    unitNo: String
+    note: String
+}
+
+# Recipient details, including guest or registered customer
+type DeliveryRecipient {
+    savedLocation: Location # If recipient chose a saved location
+    contactName: String!
+    contactNo: String!
+    address: String!
+    unitNo: String
+    note: String
+    customer: Customer # If recipient is a registered customer
+}
+
+# Item Type
+type ItemType {
+    _id: ID!
+    name: String!
+    status: String!
+}
+
+# Inputs for creating a DeliveryForm
+input createDeliveryFormInput {
+    createdBy: ID! # Registered user creating the form
+    pickup: DeliveryLocationInput! # Pickup location
+    itemType: ID! # Item type selection
+}
+
+input DeliveryLocationInput {
+    savedLocation: ID # ID if selected from saved locations
+    contactName: String!
+    contactNo: String!
+    address: String!
+    unitNo: String
+    note: String
+}
+
+# Input for updating recipient data
+input updateDeliveryRecipientInput {
+    savedLocation: ID # ID if selected from saved locations
+    contactName: String!
+    contactNo: String!
+    address: String!
+    unitNo: String
+    note: String
+    customerId: ID # If recipient is a registered customer
+}
+
 type Query {
     getCustomer(customerId: ID!): Customer
     getLocationsByUser(userId: ID!): [Location]!
     getLocation(locationId: ID!): Location
+
+    # New: Fetch a delivery form
+    getDeliveryForm(formId: ID!): DeliveryForm
 }
 
 type Mutation {
     registerCustomer(input: registerCustomerInput): Customer
     sendOtp(input: sendOtpInput): Otp
     createLocation(input: createLocationInput): Location
+
+    # New: Create & update delivery form
+    createDeliveryForm(input: createDeliveryFormInput): DeliveryForm
+    updateDeliveryData(formId: ID!, recipient: updateDeliveryRecipientInput): DeliveryForm
 }
 
 schema {
