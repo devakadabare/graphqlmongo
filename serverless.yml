@@ -6,7 +6,7 @@ provider:
   runtime: nodejs18.x
   region: ap-south-1
   environment:
-    MONGO_URI: mongodb+srv://pick2doorDbUser:xWl9bQrnZmmXYYK1@pick2door.syhdb.mongodb.net/pick-to-door
+    MONGO_URI: XXXXX 
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -19,10 +19,33 @@ provider:
 functions:
   registerCustomer:
     handler: index.registerCustomer
+
   getCustomer:
     handler: index.getCustomer
+
   sendOtp:
     handler: index.sendOtp
+
+  createLocation:
+    handler: index.createLocation
+
+  getLocationByUser:
+    handler: index.getLocationByUser
+
+  getLocation:
+    handler: index.getLocation
+
+  getItemTypes:
+    handler: index.getItemTypes
+
+  createDeliveryForm:
+    handler: index.createDeliveryForm
+
+  getDeliveryForm:
+    handler: index.getDeliveryForm
+
+  updateDeliveryData:
+    handler: index.updateDeliveryData
 
 resources:
   Resources:
@@ -70,8 +93,15 @@ resources:
                     - !GetAtt RegisterCustomerLambdaFunction.Arn
                     - !GetAtt GetCustomerLambdaFunction.Arn
                     - !GetAtt SendOtpLambdaFunction.Arn
+                    - !GetAtt CreateLocationLambdaFunction.Arn
+                    - !GetAtt GetLocationByUserLambdaFunction.Arn
+                    - !GetAtt GetLocationLambdaFunction.Arn
+                    - !GetAtt GetItemTypesLambdaFunction.Arn
+                    - !GetAtt CreateDeliveryFormLambdaFunction.Arn
+                    - !GetAtt GetDeliveryFormLambdaFunction.Arn
+                    - !GetAtt UpdateDeliveryDataLambdaFunction.Arn
 
-    # Data Source linking AppSync to Lambda function for RegisterCustomer
+    # Data Sources for AppSync
     RegisterCustomerDataSource:
       Type: AWS::AppSync::DataSource
       Properties:
@@ -102,7 +132,78 @@ resources:
         LambdaConfig:
           LambdaFunctionArn: !GetAtt GetCustomerLambdaFunction.Arn
 
-    # Resolver to connect GraphQL mutation to Lambda function for RegisterCustomer
+    CreateLocationDataSource:
+      Type: AWS::AppSync::DataSource
+      Properties:
+        Name: CreateLocationDataSource
+        Type: AWS_LAMBDA
+        ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
+        ServiceRoleArn: !GetAtt AppSyncServiceRole.Arn
+        LambdaConfig:
+          LambdaFunctionArn: !GetAtt CreateLocationLambdaFunction.Arn
+
+    GetLocationByUserDataSource:
+      Type: AWS::AppSync::DataSource
+      Properties:
+        Name: GetLocationByUserDataSource
+        Type: AWS_LAMBDA
+        ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
+        ServiceRoleArn: !GetAtt AppSyncServiceRole.Arn
+        LambdaConfig:
+          LambdaFunctionArn: !GetAtt GetLocationByUserLambdaFunction.Arn
+
+    GetLocationDataSource:
+      Type: AWS::AppSync::DataSource
+      Properties:
+        Name: GetLocationDataSource
+        Type: AWS_LAMBDA
+        ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
+        ServiceRoleArn: !GetAtt AppSyncServiceRole.Arn
+        LambdaConfig:
+          LambdaFunctionArn: !GetAtt GetLocationLambdaFunction.Arn
+
+    GetItemTypesDataSource:
+      Type: AWS::AppSync::DataSource
+      Properties:
+        Name: GetItemTypesDataSource
+        Type: AWS_LAMBDA
+        ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
+        ServiceRoleArn: !GetAtt AppSyncServiceRole.Arn
+        LambdaConfig:
+          LambdaFunctionArn: !GetAtt GetItemTypesLambdaFunction.Arn
+
+    # Delivery Form Data Sources
+    CreateDeliveryFormDataSource:
+      Type: AWS::AppSync::DataSource
+      Properties:
+        Name: CreateDeliveryFormDataSource
+        Type: AWS_LAMBDA
+        ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
+        ServiceRoleArn: !GetAtt AppSyncServiceRole.Arn
+        LambdaConfig:
+          LambdaFunctionArn: !GetAtt CreateDeliveryFormLambdaFunction.Arn
+
+    GetDeliveryFormDataSource:
+      Type: AWS::AppSync::DataSource
+      Properties:
+        Name: GetDeliveryFormDataSource
+        Type: AWS_LAMBDA
+        ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
+        ServiceRoleArn: !GetAtt AppSyncServiceRole.Arn
+        LambdaConfig:
+          LambdaFunctionArn: !GetAtt GetDeliveryFormLambdaFunction.Arn
+
+    UpdateDeliveryDataDataSource:
+      Type: AWS::AppSync::DataSource
+      Properties:
+        Name: UpdateDeliveryDataDataSource
+        Type: AWS_LAMBDA
+        ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
+        ServiceRoleArn: !GetAtt AppSyncServiceRole.Arn
+        LambdaConfig:
+          LambdaFunctionArn: !GetAtt UpdateDeliveryDataLambdaFunction.Arn
+
+    # Delivery Form Resolvers
     RegisterCustomerMutationResolver:
       Type: AWS::AppSync::Resolver
       Properties:
@@ -126,6 +227,62 @@ resources:
         TypeName: Query
         FieldName: getCustomer
         DataSourceName: !GetAtt GetCustomerDataSource.Name
+
+    CreateLocationMutationResolver:
+      Type: AWS::AppSync::Resolver
+      Properties:
+        ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
+        TypeName: Mutation
+        FieldName: createLocation
+        DataSourceName: !GetAtt CreateLocationDataSource.Name
+
+    GetLocationByUserQueryResolver:
+      Type: AWS::AppSync::Resolver
+      Properties:
+        ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
+        TypeName: Query
+        FieldName: getLocationByUser
+        DataSourceName: !GetAtt GetLocationByUserDataSource.Name
+
+    GetLocationQueryResolver:
+      Type: AWS::AppSync::Resolver
+      Properties:
+        ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
+        TypeName: Query
+        FieldName: getLocation
+        DataSourceName: !GetAtt GetLocationDataSource.Name
+
+    GetItemTypesQueryResolver:
+      Type: AWS::AppSync::Resolver
+      Properties:
+        ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
+        TypeName: Query
+        FieldName: getItemTypes
+        DataSourceName: !GetAtt GetItemTypesDataSource.Name
+
+    CreateDeliveryFormMutationResolver:
+      Type: AWS::AppSync::Resolver
+      Properties:
+        ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
+        TypeName: Mutation
+        FieldName: createDeliveryForm
+        DataSourceName: !GetAtt CreateDeliveryFormDataSource.Name
+
+    GetDeliveryFormQueryResolver:
+      Type: AWS::AppSync::Resolver
+      Properties:
+        ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
+        TypeName: Query
+        FieldName: getDeliveryForm
+        DataSourceName: !GetAtt GetDeliveryFormDataSource.Name
+
+    UpdateDeliveryDataMutationResolver:
+      Type: AWS::AppSync::Resolver
+      Properties:
+        ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
+        TypeName: Mutation
+        FieldName: updateDeliveryData
+        DataSourceName: !GetAtt UpdateDeliveryDataDataSource.Name
 
   Outputs:
     GraphQLAPIEndpoint:
