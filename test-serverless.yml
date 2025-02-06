@@ -19,9 +19,10 @@ provider:
 # Import functions, resources, data sources, and resolvers
 functions: ${file(serverless-config/functions.yml)}
 resources:
-  ${file(serverless-config/resources.yml)}
-  ${file(serverless-config/datasources.yml)}
-  ${file(serverless-config/resolvers.yml)}
+  Resources:
+    ${file(serverless-config/resources.yml)}
+    ${file(serverless-config/datasources.yml)}
+    ${file(serverless-config/resolvers.yml)}
 
 outputs:
   ${file(serverless-config/outputs.yml)}

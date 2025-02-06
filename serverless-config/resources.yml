@@ -1,49 +1,48 @@
-Resources:
-  Pick2DoorAppSyncAPI:
-    Type: AWS::AppSync::GraphQLApi
-    Properties:
-      Name: Pick2DoorAppSyncAPI
-      AuthenticationType: API_KEY
+Pick2DoorAppSyncAPI:
+  Type: AWS::AppSync::GraphQLApi
+  Properties:
+    Name: Pick2DoorAppSyncAPI
+    AuthenticationType: API_KEY
 
-  Pick2DoorAppSyncAPIKey:
-    Type: AWS::AppSync::ApiKey
-    Properties:
-      ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
-      Expires: 1765497600
+Pick2DoorAppSyncAPIKey:
+  Type: AWS::AppSync::ApiKey
+  Properties:
+    ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
+    Expires: 1765497600
 
-  Pick2DoorGraphApiSchema:
-    Type: AWS::AppSync::GraphQLSchema
-    Properties:
-      ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
-      Definition: !Sub ${file(schema.graphql)}
+Pick2DoorGraphApiSchema:
+  Type: AWS::AppSync::GraphQLSchema
+  Properties:
+    ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
+    Definition: !Sub ${file(schema.graphql)}
 
-  AppSyncServiceRole:
-    Type: AWS::IAM::Role
-    Properties:
-      RoleName: Pick2DoorAppSyncServiceRole
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: sts:AssumeRole
-      Policies:
-        - PolicyName: AppSyncLambdaInvokePolicy
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action:
-                  - lambda:InvokeFunction
-                Resource:
-                  - !GetAtt RegisterCustomerLambdaFunction.Arn
-                  - !GetAtt GetCustomerLambdaFunction.Arn
-                  - !GetAtt SendOtpLambdaFunction.Arn
-                  - !GetAtt CreateLocationLambdaFunction.Arn
-                  - !GetAtt GetLocationByUserLambdaFunction.Arn
-                  - !GetAtt GetLocationLambdaFunction.Arn
-                  - !GetAtt GetItemTypesLambdaFunction.Arn
-                  - !GetAtt CreateDeliveryFormLambdaFunction.Arn
-                  - !GetAtt GetDeliveryFormLambdaFunction.Arn
-                  - !GetAtt UpdateDeliveryDataLambdaFunction.Arn
+AppSyncServiceRole:
+  Type: AWS::IAM::Role
+  Properties:
+    RoleName: Pick2DoorAppSyncServiceRole
+    AssumeRolePolicyDocument:
+      Version: '2012-10-17'
+      Statement:
+        - Effect: Allow
+          Principal:
+            Service: appsync.amazonaws.com
+          Action: sts:AssumeRole
+    Policies:
+      - PolicyName: AppSyncLambdaInvokePolicy
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action:
+                - lambda:InvokeFunction
+              Resource:
+                - !GetAtt RegisterCustomerLambdaFunction.Arn
+                - !GetAtt GetCustomerLambdaFunction.Arn
+                - !GetAtt SendOtpLambdaFunction.Arn
+                - !GetAtt CreateLocationLambdaFunction.Arn
+                - !GetAtt GetLocationByUserLambdaFunction.Arn
+                - !GetAtt GetLocationLambdaFunction.Arn
+                - !GetAtt GetItemTypesLambdaFunction.Arn
+                - !GetAtt CreateDeliveryFormLambdaFunction.Arn
+                - !GetAtt GetDeliveryFormLambdaFunction.Arn
+                - !GetAtt UpdateDeliveryDataLambdaFunction.Arn

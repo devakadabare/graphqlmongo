@@ -1,158 +1,158 @@
-Resources:
-  RegisterCustomerMutationResolver:
-    Type: AWS::AppSync::Resolver
-    Properties:
-      ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
-      TypeName: Mutation
-      FieldName: registerCustomer
-      DataSourceName: !GetAtt RegisterCustomerDataSource.Name
 
-  SendOtpMutationResolver:
-    Type: AWS::AppSync::Resolver
-    Properties:
-      ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
-      TypeName: Mutation
-      FieldName: sendOtp
-      DataSourceName: !GetAtt SendOtpDataSource.Name
+RegisterCustomerMutationResolver:
+  Type: AWS::AppSync::Resolver
+  Properties:
+    ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
+    TypeName: Mutation
+    FieldName: registerCustomer
+    DataSourceName: !GetAtt RegisterCustomerDataSource.Name
 
-  GetCustomerQueryResolver:
-    Type: AWS::AppSync::Resolver
-    Properties:
-      ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
-      TypeName: Query
-      FieldName: getCustomer
-      DataSourceName: !GetAtt GetCustomerDataSource.Name
+SendOtpMutationResolver:
+  Type: AWS::AppSync::Resolver
+  Properties:
+    ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
+    TypeName: Mutation
+    FieldName: sendOtp
+    DataSourceName: !GetAtt SendOtpDataSource.Name
 
-  CreateLocationMutationResolver:
-    Type: AWS::AppSync::Resolver
-    Properties:
-      ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
-      TypeName: Mutation
-      FieldName: createLocation
-      DataSourceName: !GetAtt CreateLocationDataSource.Name
+GetCustomerQueryResolver:
+  Type: AWS::AppSync::Resolver
+  Properties:
+    ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
+    TypeName: Query
+    FieldName: getCustomer
+    DataSourceName: !GetAtt GetCustomerDataSource.Name
 
-  GetLocationByUserQueryResolver:
-    Type: AWS::AppSync::Resolver
-    Properties:
-      ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
-      TypeName: Query
-      FieldName: getLocationByUser
-      DataSourceName: !GetAtt GetLocationByUserDataSource.Name
+CreateLocationMutationResolver:
+  Type: AWS::AppSync::Resolver
+  Properties:
+    ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
+    TypeName: Mutation
+    FieldName: createLocation
+    DataSourceName: !GetAtt CreateLocationDataSource.Name
 
-  GetLocationQueryResolver:
-    Type: AWS::AppSync::Resolver
-    Properties:
-      ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
-      TypeName: Query
-      FieldName: getLocation
-      DataSourceName: !GetAtt GetLocationDataSource.Name
+GetLocationByUserQueryResolver:
+  Type: AWS::AppSync::Resolver
+  Properties:
+    ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
+    TypeName: Query
+    FieldName: getLocationByUser
+    DataSourceName: !GetAtt GetLocationByUserDataSource.Name
 
-  GetItemTypesQueryResolver:
-    Type: AWS::AppSync::Resolver
-    Properties:
-      ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
-      TypeName: Query
-      FieldName: getItemTypes
-      DataSourceName: !GetAtt GetItemTypesDataSource.Name
+GetLocationQueryResolver:
+  Type: AWS::AppSync::Resolver
+  Properties:
+    ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
+    TypeName: Query
+    FieldName: getLocation
+    DataSourceName: !GetAtt GetLocationDataSource.Name
 
-  CreateDeliveryFormMutationResolver:
-    Type: AWS::AppSync::Resolver
-    Properties:
-      ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
-      TypeName: Mutation
-      FieldName: createDeliveryForm
-      DataSourceName: !GetAtt CreateDeliveryFormDataSource.Name
+GetItemTypesQueryResolver:
+  Type: AWS::AppSync::Resolver
+  Properties:
+    ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
+    TypeName: Query
+    FieldName: getItemTypes
+    DataSourceName: !GetAtt GetItemTypesDataSource.Name
 
-  GetDeliveryFormQueryResolver:
-    Type: AWS::AppSync::Resolver
-    Properties:
-      ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
-      TypeName: Query
-      FieldName: getDeliveryForm
-      DataSourceName: !GetAtt GetDeliveryFormDataSource.Name
+CreateDeliveryFormMutationResolver:
+  Type: AWS::AppSync::Resolver
+  Properties:
+    ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
+    TypeName: Mutation
+    FieldName: createDeliveryForm
+    DataSourceName: !GetAtt CreateDeliveryFormDataSource.Name
 
-  UpdateDeliveryDataMutationResolver:
-    Type: AWS::AppSync::Resolver
-    Properties:
-      ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
-      TypeName: Mutation
-      FieldName: updateDeliveryData
-      DataSourceName: !GetAtt UpdateDeliveryDataDataSource.NameRegisterCustomerMutationResolver:
-    Type: AWS::AppSync::Resolver
-    Properties:
-      ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
-      TypeName: Mutation
-      FieldName: registerCustomer
-      DataSourceName: !GetAtt RegisterCustomerDataSource.Name
+GetDeliveryFormQueryResolver:
+  Type: AWS::AppSync::Resolver
+  Properties:
+    ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
+    TypeName: Query
+    FieldName: getDeliveryForm
+    DataSourceName: !GetAtt GetDeliveryFormDataSource.Name
 
-  SendOtpMutationResolver:
-    Type: AWS::AppSync::Resolver
-    Properties:
-      ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
-      TypeName: Mutation
-      FieldName: sendOtp
-      DataSourceName: !GetAtt SendOtpDataSource.Name
+UpdateDeliveryDataMutationResolver:
+  Type: AWS::AppSync::Resolver
+  Properties:
+    ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
+    TypeName: Mutation
+    FieldName: updateDeliveryData
+    DataSourceName: !GetAtt UpdateDeliveryDataDataSource.NameRegisterCustomerMutationResolver:
+  Type: AWS::AppSync::Resolver
+  Properties:
+    ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
+    TypeName: Mutation
+    FieldName: registerCustomer
+    DataSourceName: !GetAtt RegisterCustomerDataSource.Name
 
-  GetCustomerQueryResolver:
-    Type: AWS::AppSync::Resolver
-    Properties:
-      ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
-      TypeName: Query
-      FieldName: getCustomer
-      DataSourceName: !GetAtt GetCustomerDataSource.Name
+SendOtpMutationResolver:
+  Type: AWS::AppSync::Resolver
+  Properties:
+    ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
+    TypeName: Mutation
+    FieldName: sendOtp
+    DataSourceName: !GetAtt SendOtpDataSource.Name
 
-  CreateLocationMutationResolver:
-    Type: AWS::AppSync::Resolver
-    Properties:
-      ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
-      TypeName: Mutation
-      FieldName: createLocation
-      DataSourceName: !GetAtt CreateLocationDataSource.Name
+GetCustomerQueryResolver:
+  Type: AWS::AppSync::Resolver
+  Properties:
+    ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
+    TypeName: Query
+    FieldName: getCustomer
+    DataSourceName: !GetAtt GetCustomerDataSource.Name
 
-  GetLocationByUserQueryResolver:
-    Type: AWS::AppSync::Resolver
-    Properties:
-      ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
-      TypeName: Query
-      FieldName: getLocationByUser
-      DataSourceName: !GetAtt GetLocationByUserDataSource.Name
+CreateLocationMutationResolver:
+  Type: AWS::AppSync::Resolver
+  Properties:
+    ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
+    TypeName: Mutation
+    FieldName: createLocation
+    DataSourceName: !GetAtt CreateLocationDataSource.Name
 
-  GetLocationQueryResolver:
-    Type: AWS::AppSync::Resolver
-    Properties:
-      ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
-      TypeName: Query
-      FieldName: getLocation
-      DataSourceName: !GetAtt GetLocationDataSource.Name
+GetLocationByUserQueryResolver:
+  Type: AWS::AppSync::Resolver
+  Properties:
+    ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
+    TypeName: Query
+    FieldName: getLocationByUser
+    DataSourceName: !GetAtt GetLocationByUserDataSource.Name
 
-  GetItemTypesQueryResolver:
-    Type: AWS::AppSync::Resolver
-    Properties:
-      ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
-      TypeName: Query
-      FieldName: getItemTypes
-      DataSourceName: !GetAtt GetItemTypesDataSource.Name
+GetLocationQueryResolver:
+  Type: AWS::AppSync::Resolver
+  Properties:
+    ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
+    TypeName: Query
+    FieldName: getLocation
+    DataSourceName: !GetAtt GetLocationDataSource.Name
 
-  CreateDeliveryFormMutationResolver:
-    Type: AWS::AppSync::Resolver
-    Properties:
-      ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
-      TypeName: Mutation
-      FieldName: createDeliveryForm
-      DataSourceName: !GetAtt CreateDeliveryFormDataSource.Name
+GetItemTypesQueryResolver:
+  Type: AWS::AppSync::Resolver
+  Properties:
+    ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
+    TypeName: Query
+    FieldName: getItemTypes
+    DataSourceName: !GetAtt GetItemTypesDataSource.Name
 
-  GetDeliveryFormQueryResolver:
-    Type: AWS::AppSync::Resolver
-    Properties:
-      ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
-      TypeName: Query
-      FieldName: getDeliveryForm
-      DataSourceName: !GetAtt GetDeliveryFormDataSource.Name
+CreateDeliveryFormMutationResolver:
+  Type: AWS::AppSync::Resolver
+  Properties:
+    ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
+    TypeName: Mutation
+    FieldName: createDeliveryForm
+    DataSourceName: !GetAtt CreateDeliveryFormDataSource.Name
 
-  UpdateDeliveryDataMutationResolver:
-    Type: AWS::AppSync::Resolver
-    Properties:
-      ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
-      TypeName: Mutation
-      FieldName: updateDeliveryData
-      DataSourceName: !GetAtt UpdateDeliveryDataDataSource.Name
+GetDeliveryFormQueryResolver:
+  Type: AWS::AppSync::Resolver
+  Properties:
+    ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
+    TypeName: Query
+    FieldName: getDeliveryForm
+    DataSourceName: !GetAtt GetDeliveryFormDataSource.Name
+
+UpdateDeliveryDataMutationResolver:
+  Type: AWS::AppSync::Resolver
+  Properties:
+    ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
+    TypeName: Mutation
+    FieldName: updateDeliveryData
+    DataSourceName: !GetAtt UpdateDeliveryDataDataSource.Name

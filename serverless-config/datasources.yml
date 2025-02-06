@@ -1,101 +1,101 @@
-Resources:
-  RegisterCustomerDataSource:
-    Type: AWS::AppSync::DataSource
-    Properties:
-      Name: RegisterCustomerDataSource
-      Type: AWS_LAMBDA
-      ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
-      ServiceRoleArn: !GetAtt AppSyncServiceRole.Arn
-      LambdaConfig:
-        LambdaFunctionArn: !GetAtt RegisterCustomerLambdaFunction.Arn
 
-  SendOtpDataSource:
-    Type: AWS::AppSync::DataSource
-    Properties:
-      Name: SendOtpDataSource
-      Type: AWS_LAMBDA
-      ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
-      ServiceRoleArn: !GetAtt AppSyncServiceRole.Arn
-      LambdaConfig:
-        LambdaFunctionArn: !GetAtt SendOtpLambdaFunction.Arn
+RegisterCustomerDataSource:
+  Type: AWS::AppSync::DataSource
+  Properties:
+    Name: RegisterCustomerDataSource
+    Type: AWS_LAMBDA
+    ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
+    ServiceRoleArn: !GetAtt AppSyncServiceRole.Arn
+    LambdaConfig:
+      LambdaFunctionArn: !GetAtt RegisterCustomerLambdaFunction.Arn
 
-  GetCustomerDataSource:
-    Type: AWS::AppSync::DataSource
-    Properties:
-      Name: GetCustomerDataSource
-      Type: AWS_LAMBDA
-      ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
-      ServiceRoleArn: !GetAtt AppSyncServiceRole.Arn
-      LambdaConfig:
-        LambdaFunctionArn: !GetAtt GetCustomerLambdaFunction.Arn
+SendOtpDataSource:
+  Type: AWS::AppSync::DataSource
+  Properties:
+    Name: SendOtpDataSource
+    Type: AWS_LAMBDA
+    ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
+    ServiceRoleArn: !GetAtt AppSyncServiceRole.Arn
+    LambdaConfig:
+      LambdaFunctionArn: !GetAtt SendOtpLambdaFunction.Arn
 
-  CreateLocationDataSource:
-    Type: AWS::AppSync::DataSource
-    Properties:
-      Name: CreateLocationDataSource
-      Type: AWS_LAMBDA
-      ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
-      ServiceRoleArn: !GetAtt AppSyncServiceRole.Arn
-      LambdaConfig:
-        LambdaFunctionArn: !GetAtt CreateLocationLambdaFunction.Arn
+GetCustomerDataSource:
+  Type: AWS::AppSync::DataSource
+  Properties:
+    Name: GetCustomerDataSource
+    Type: AWS_LAMBDA
+    ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
+    ServiceRoleArn: !GetAtt AppSyncServiceRole.Arn
+    LambdaConfig:
+      LambdaFunctionArn: !GetAtt GetCustomerLambdaFunction.Arn
 
-  GetLocationByUserDataSource:
-    Type: AWS::AppSync::DataSource
-    Properties:
-      Name: GetLocationByUserDataSource
-      Type: AWS_LAMBDA
-      ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
-      ServiceRoleArn: !GetAtt AppSyncServiceRole.Arn
-      LambdaConfig:
-        LambdaFunctionArn: !GetAtt GetLocationByUserLambdaFunction.Arn
+CreateLocationDataSource:
+  Type: AWS::AppSync::DataSource
+  Properties:
+    Name: CreateLocationDataSource
+    Type: AWS_LAMBDA
+    ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
+    ServiceRoleArn: !GetAtt AppSyncServiceRole.Arn
+    LambdaConfig:
+      LambdaFunctionArn: !GetAtt CreateLocationLambdaFunction.Arn
 
-  GetLocationDataSource:
-    Type: AWS::AppSync::DataSource
-    Properties:
-      Name: GetLocationDataSource
-      Type: AWS_LAMBDA
-      ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
-      ServiceRoleArn: !GetAtt AppSyncServiceRole.Arn
-      LambdaConfig:
-        LambdaFunctionArn: !GetAtt GetLocationLambdaFunction.Arn
+GetLocationByUserDataSource:
+  Type: AWS::AppSync::DataSource
+  Properties:
+    Name: GetLocationByUserDataSource
+    Type: AWS_LAMBDA
+    ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
+    ServiceRoleArn: !GetAtt AppSyncServiceRole.Arn
+    LambdaConfig:
+      LambdaFunctionArn: !GetAtt GetLocationByUserLambdaFunction.Arn
 
-  GetItemTypesDataSource:
-    Type: AWS::AppSync::DataSource
-    Properties:
-      Name: GetItemTypesDataSource
-      Type: AWS_LAMBDA
-      ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
-      ServiceRoleArn: !GetAtt AppSyncServiceRole.Arn
-      LambdaConfig:
-        LambdaFunctionArn: !GetAtt GetItemTypesLambdaFunction.Arn
+GetLocationDataSource:
+  Type: AWS::AppSync::DataSource
+  Properties:
+    Name: GetLocationDataSource
+    Type: AWS_LAMBDA
+    ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
+    ServiceRoleArn: !GetAtt AppSyncServiceRole.Arn
+    LambdaConfig:
+      LambdaFunctionArn: !GetAtt GetLocationLambdaFunction.Arn
 
-  # Delivery Form Data Sources
-  CreateDeliveryFormDataSource:
-    Type: AWS::AppSync::DataSource
-    Properties:
-      Name: CreateDeliveryFormDataSource
-      Type: AWS_LAMBDA
-      ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
-      ServiceRoleArn: !GetAtt AppSyncServiceRole.Arn
-      LambdaConfig:
-        LambdaFunctionArn: !GetAtt CreateDeliveryFormLambdaFunction.Arn
+GetItemTypesDataSource:
+  Type: AWS::AppSync::DataSource
+  Properties:
+    Name: GetItemTypesDataSource
+    Type: AWS_LAMBDA
+    ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
+    ServiceRoleArn: !GetAtt AppSyncServiceRole.Arn
+    LambdaConfig:
+      LambdaFunctionArn: !GetAtt GetItemTypesLambdaFunction.Arn
 
-  GetDeliveryFormDataSource:
-    Type: AWS::AppSync::DataSource
-    Properties:
-      Name: GetDeliveryFormDataSource
-      Type: AWS_LAMBDA
-      ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
-      ServiceRoleArn: !GetAtt AppSyncServiceRole.Arn
-      LambdaConfig:
-        LambdaFunctionArn: !GetAtt GetDeliveryFormLambdaFunction.Arn
+# Delivery Form Data Sources
+CreateDeliveryFormDataSource:
+  Type: AWS::AppSync::DataSource
+  Properties:
+    Name: CreateDeliveryFormDataSource
+    Type: AWS_LAMBDA
+    ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
+    ServiceRoleArn: !GetAtt AppSyncServiceRole.Arn
+    LambdaConfig:
+      LambdaFunctionArn: !GetAtt CreateDeliveryFormLambdaFunction.Arn
 
-  UpdateDeliveryDataDataSource:
-    Type: AWS::AppSync::DataSource
-    Properties:
-      Name: UpdateDeliveryDataDataSource
-      Type: AWS_LAMBDA
-      ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
-      ServiceRoleArn: !GetAtt AppSyncServiceRole.Arn
-      LambdaConfig:
-        LambdaFunctionArn: !GetAtt UpdateDeliveryDataLambdaFunction.Arn
+GetDeliveryFormDataSource:
+  Type: AWS::AppSync::DataSource
+  Properties:
+    Name: GetDeliveryFormDataSource
+    Type: AWS_LAMBDA
+    ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
+    ServiceRoleArn: !GetAtt AppSyncServiceRole.Arn
+    LambdaConfig:
+      LambdaFunctionArn: !GetAtt GetDeliveryFormLambdaFunction.Arn
+
+UpdateDeliveryDataDataSource:
+  Type: AWS::AppSync::DataSource
+  Properties:
+    Name: UpdateDeliveryDataDataSource
+    Type: AWS_LAMBDA
+    ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
+    ServiceRoleArn: !GetAtt AppSyncServiceRole.Arn
+    LambdaConfig:
+      LambdaFunctionArn: !GetAtt UpdateDeliveryDataLambdaFunction.Arn
