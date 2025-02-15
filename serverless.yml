@@ -1,4 +1,4 @@
-service: pick-to-door-dev
+service: pick-to-door
 frameworkVersion: '3'
 
 provider:

@@ -1,15 +1,21 @@
 const connectToDatabase = require('../database/database');
 const Location = require('../models/locations');
 
+const { getUser } = require('./user');
+
 const createLocation = async (requestBody) => {
     try {
         await connectToDatabase();
 
-        const { name, address, long, lat, details, note, contactName, contactNo, type, existingUser } = requestBody;
+        const { name, address, long, lat, details, note, contactName, contactNo, type, userId } = requestBody;
+
+        const user = await getUser(userId);
+        if (!user) throw new Error('User not found');
 
         // Check if the Location for this User already exists
-        const existingLocation = await Location.findOne({ user: existingUser._id, name });
+        const existingLocation = await Location.findOne({ user: userId, name });
         if (existingLocation) throw new Error('Location Name already exists for this User');
+        
 
         // Create a new Location
         const newLocation = new Location({
@@ -22,7 +28,7 @@ const createLocation = async (requestBody) => {
             contactName,
             contactNo,
             type,
-            user: existingUser._id, // Save the ID of the User
+            user: userId, // Save the ID of the User
         });
 
         const savedLocation = await newLocation.save();
@@ -39,8 +45,8 @@ const getLocationByUser = async (userId) => {
     try {
         await connectToDatabase();
 
-        // Find the location by User ID
-        const locations = await Location.find({ user: userId });
+         // Find the location by User ID
+         const locations = await Location.find({ user: userId });
 
         return locations;
     } catch (error) {

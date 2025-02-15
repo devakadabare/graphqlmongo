@@ -75,6 +75,7 @@ input createLocationInput {
     contactName: String
     contactNo: String
     type: LocationType!
+    userId: ID!
 }
 
 # DeliveryForm Type
@@ -147,8 +148,10 @@ input updateDeliveryRecipientInput {
 
 type Query {
     getCustomer(customerId: ID!): Customer
-    getLocationsByUser(userId: ID!): [Location]!
+    getLocationByUser(userId: ID!): [Location]
     getLocation(locationId: ID!): Location
+
+    getItemTypes: [ItemType]
 
     # New: Fetch a delivery form
     getDeliveryForm(formId: ID!): DeliveryForm

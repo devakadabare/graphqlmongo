@@ -27,5 +27,18 @@ const createUser = async (data) => {
     }
 };
 
+const getUser = async (userId) => {
+    try {
+        await connectToDatabase();
 
-module.exports = { createUser };
+        const user = await User.findById(userId);
+        return user;
+    }
+    catch (error) {
+        console.error('Error fetching user:', error);
+        throw new Error(error.message);
+    }
+}
+
+
+module.exports = { createUser, getUser };
