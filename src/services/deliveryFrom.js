@@ -1,3 +1,4 @@
+const { model } = require('mongoose');
 const connectToDatabase = require('../database/database');
 const DeliveryForm = require('../models/deliveryForm');
 
@@ -8,7 +9,7 @@ const createDeliveryForm = async (requestBody) => {
     try {
         await connectToDatabase();
 
-        const { createdBy, pickup, itemType } = requestBody;
+        const { createdBy, pickup, itemType, message } = requestBody;
 
         if (!createdBy) throw new Error('User must be registered to create a delivery form');
         if (!itemType) throw new Error('Item type is required');
@@ -25,6 +26,7 @@ const createDeliveryForm = async (requestBody) => {
             createdBy,
             pickup: pickupData,
             itemType,
+            message: message || '',
             recipient: {}, // Empty recipient, will be updated later
         });
 
@@ -41,11 +43,17 @@ const getDeliveryForm = async (formId) => {
         await connectToDatabase();
 
         const form = await DeliveryForm.findById(formId)
-            .populate('createdBy', 'name email') // Fetch user details
-            .populate('pickup.savedLocation', 'name address') // Populate pickup if from saved location
-            .populate('recipient.savedLocation', 'name address') // Populate recipient if from saved location
-            .populate('recipient.customer', 'name email') // Populate recipient if registered customer
-            .populate('itemType', 'name'); // Fetch item type
+            .populate('createdBy') // Fetch user details
+            .populate('pickup.savedLocation') // Populate pickup if from saved location
+            .populate('recipient.savedLocation') // Populate recipient if from saved location
+            .populate({
+                path: 'recipient.customer',
+                populate: {
+                    path: 'user', // Populate user details
+                    model: 'User',
+                }
+            }) // Populate recipient if registered customer
+            .populate('itemType'); // Fetch item type
 
         if (!form) throw new Error('Delivery form not found');
 

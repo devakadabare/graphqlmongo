@@ -80,7 +80,7 @@ input createLocationInput {
 # DeliveryForm Type
 type DeliveryForm {
     _id: ID!
-    createdBy: User! # Only a registered user can create a form
+    createdBy: Customer! # Only a registered user can create a form
     pickup: DeliveryLocation! # Pickup location, either saved or manual entry
     recipient: DeliveryRecipient! # Recipient details (can be guest or customer)
     itemType: ItemType! # Item type selected
@@ -122,6 +122,7 @@ input createDeliveryFormInput {
     createdBy: ID! # Registered user creating the form
     pickup: DeliveryLocationInput! # Pickup location
     itemType: ID! # Item type selection
+    message: String # Optional message for the recipient
 }
 
 input DeliveryLocationInput {

@@ -16,7 +16,7 @@ module.exports.getLocation = async (event) => await locationController.getLocati
 
 module.exports.getItemTypes = async () => await masterDataController.getItemTypes();
 
-module.exports.createDeliveryForm = async (event) => await deliveryFormController.createDeliveryForm(event.arguments);
+module.exports.createDeliveryForm = async (event) => await deliveryFormController.createDeliveryForm(event.arguments.input);
 module.exports.getDeliveryForm = async (event) => await deliveryFormController.getDeliveryForm(event.arguments.formId);
 module.exports.updateDeliveryData = async (event) => await deliveryFormController.updateDeliveryData(event.arguments.formId, event.arguments.recipient);
 

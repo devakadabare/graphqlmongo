@@ -69,3 +69,24 @@ npx dotenv -e .env -- serverless invoke local --function getDeliveryForm --path 
 
 
 ----
+get updateDeliveryData Form
+npx dotenv -e .env -- serverless invoke local --function updateDeliveryData --path input.json
+
+{
+    "identity": {
+        "username": "558ea2e5-6d33-425e-8987-70646888136a"
+    },
+    "arguments": {
+        "formId": "67b00fa325e665d992137c88",
+        "recipient": {
+            "savedLocation": null,
+            "customer": null,
+            "contactName": "John Doe",
+            "contactNo": "1234567890",
+            "address": "123, Main Street, New York, NY",
+            "unitNo": "Apt 123",
+            "note": "Ring the bell twice"
+        },
+        "itemType":"67b00c7057fecdc4d033ef99"
+    }
+}
