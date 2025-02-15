@@ -1,8 +1,8 @@
 const connectToDatabase = require('../database/database');
 const DeliveryForm = require('../models/deliveryForm');
-const Location = require('../models/location');
-const ItemType = require('../models/itemType');
-const Customer = require('../models/customer');
+
+const { getCustomer } = require('./customer');
+const { getLocation } = require('./locations');
 
 const createDeliveryForm = async (requestBody) => {
     try {
@@ -15,6 +15,10 @@ const createDeliveryForm = async (requestBody) => {
 
         // Process pickup location (saved or new)
         let pickupData = await processLocation(pickup);
+
+        //check if user is a registered customer
+        const customer = await getCustomer(createdBy);
+        if (!customer) throw new Error('Customer not found');
 
         // Create a delivery form (recipient will be updated later)
         const newDeliveryForm = new DeliveryForm({
@@ -80,7 +84,7 @@ const updateDeliveryData = async (formId, recipient) => {
 const processLocation = async (location) => {
     if (location.savedLocation) {
         // User selected a saved location, verify it exists
-        const savedLocation = await Location.findById(location.savedLocation);
+        const savedLocation = await getLocation(location.savedLocation);
         if (!savedLocation) throw new Error('Selected location does not exist');
         return { savedLocation: savedLocation._id };
     } else {
@@ -99,12 +103,12 @@ const processLocation = async (location) => {
 const processRecipient = async (recipient) => {
     if (recipient.savedLocation) {
         // If recipient selected a saved location, validate it
-        const savedLocation = await Location.findById(recipient.savedLocation);
+        const savedLocation = await getLocation(location.savedLocation);
         if (!savedLocation) throw new Error('Selected recipient location does not exist');
         return { savedLocation: savedLocation._id };
     } else {
         // Check if recipient is a registered customer
-        const customer = await Customer.findOne({ email: recipient.email });
+        const customer = await getCustomer(recipient.customer);
         return {
             contactName: recipient.contactName,
             contactNo: recipient.contactNo,

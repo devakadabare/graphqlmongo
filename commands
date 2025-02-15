@@ -29,3 +29,43 @@ bring connectToDatatbase into middleware alike
 
 
 create controller layer.
+
+
+----
+create dlivery form
+
+npx dotenv -e .env -- serverless invoke local --function createDeliveryForm --path input.json
+
+{
+    "identity": {
+        "username": "558ea2e5-6d33-425e-8987-70646888136a"
+    },
+    "arguments": {
+        "createdBy": "67a23e163bb90a2f38fc52d3",
+        "pickup": {
+            "savedLocation": null,
+            "contactName": "John Doe",
+            "contactNo": "1234567890",
+            "address": "123, Main Street, New York, NY",
+            "unitNo": "Apt 123",
+            "note": "Ring the bell twice"
+        },
+        "itemType":"67b00c7057fecdc4d033ef99"
+    }
+}
+
+--
+get delivery Form
+npx dotenv -e .env -- serverless invoke local --function getDeliveryForm --path input.json
+
+{
+    "identity": {
+        "username": "558ea2e5-6d33-425e-8987-70646888136a"
+    },
+    "arguments": {
+        "formId": "67b00fa325e665d992137c88"
+    }
+}
+
+
+----

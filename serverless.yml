@@ -6,7 +6,7 @@ provider:
   runtime: nodejs18.x
   region: ap-south-1
   environment:
-    MONGO_URI: XXXXX 
+    MONGO_URI: mongodb+srv://pick2doorDbUser:xWl9bQrnZmmXYYK1@pick2door.syhdb.mongodb.net/pick-to-door 
   iamRoleStatements:
     - Effect: Allow
       Action:
