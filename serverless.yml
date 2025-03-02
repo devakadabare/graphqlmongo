@@ -46,6 +46,12 @@ functions:
 
   updateDeliveryData:
     handler: index.updateDeliveryData
+  
+  createDelivery:
+    handler: index.createDelivery
+  
+  getDeliveriesByUserId:
+    handler: index.getDeliveriesByUserId
 
 resources:
   Resources:
@@ -203,6 +209,17 @@ resources:
         LambdaConfig:
           LambdaFunctionArn: !GetAtt UpdateDeliveryDataLambdaFunction.Arn
 
+    # Delivery  Data Sources getDeliveriesByUserId
+    GetDeliveriesByUserIdDataSource:
+      Type: AWS::AppSync::DataSource
+      Properties:
+        Name: GetDeliveriesByUserIdDataSource
+        Type: AWS_LAMBDA
+        ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
+        ServiceRoleArn: !GetAtt AppSyncServiceRole.Arn
+        LambdaConfig:
+          LambdaFunctionArn: !GetAtt GetDeliveriesByUserIdLambdaFunction.Arn
+
     # Delivery Form Resolvers
     RegisterCustomerMutationResolver:
       Type: AWS::AppSync::Resolver
@@ -283,6 +300,14 @@ resources:
         TypeName: Mutation
         FieldName: updateDeliveryData
         DataSourceName: !GetAtt UpdateDeliveryDataDataSource.Name
+
+    GetDeliveriesByUserIdResolver:
+      Type: AWS::AppSync::Resolver
+      Properties:
+        ApiId: !GetAtt Pick2DoorAppSyncAPI.ApiId
+        TypeName: Query
+        FieldName: getDeliveriesByUserId
+        DataSourceName: !GetAtt GetDeliveriesByUserIdDataSource.Name
 
   Outputs:
     GraphQLAPIEndpoint:

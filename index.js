@@ -4,6 +4,7 @@ const otpController = require('./src/controllers/otp');
 const locationController = require('./src/controllers/location');
 const masterDataController = require('./src/controllers/masterData');
 const deliveryFormController = require('./src/controllers/deliveryForm');
+const deliveryController = require('./src/controllers/delivery');
 
 module.exports.sendOtp = async (event) => await otpController.sendOtp(event.arguments.input);
 
@@ -19,4 +20,7 @@ module.exports.getItemTypes = async () => await masterDataController.getItemType
 module.exports.createDeliveryForm = async (event) => await deliveryFormController.createDeliveryForm(event.arguments.input);
 module.exports.getDeliveryForm = async (event) => await deliveryFormController.getDeliveryForm(event.arguments.formId);
 module.exports.updateDeliveryData = async (event) => await deliveryFormController.updateDeliveryData(event.arguments.formId, event.arguments.recipient);
+
+module.exports.createDelivery = async (event) => await deliveryController.createDelivery(event.arguments);
+module.exports.getDeliveriesByUserId = async (event) => await deliveryController.getDeliveriesByUserId(event.arguments.userId, event.arguments.status);
 

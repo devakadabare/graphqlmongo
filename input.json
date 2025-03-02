@@ -1,8 +1,9 @@
 {
-    "identity": {
-        "username": "558ea2e5-6d33-425e-8987-70646888136a"
-    },
-    "arguments": {
-        "userId": "67a23e163bb90a2f38fc52d0"
-    }
+  "identity": {
+      "username": "558ea2e5-6d33-425e-8987-70646888136a"
+  },
+  "arguments": {
+      "userId": "67a23e163bb90a2f38fc52d0",
+      "status": "PENDING"
+  }
 }

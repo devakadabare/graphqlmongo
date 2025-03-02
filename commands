@@ -103,3 +103,47 @@ npx dotenv -e .env -- serverless invoke local --function getLocationByUser --pat
         "userId": "67a23e163bb90a2f38fc52d0"
     }
 }
+
+
+npx dotenv -e .env -- serverless invoke local --function createDelivery --path input.json
+{
+    "identity": {
+        "username": "558ea2e5-6d33-425e-8987-70646888136a"
+    },
+    "arguments": {
+        "createdBy": "67a731daa6098b3107e2d995",
+        "sender": "67a731daa6098b3107e2d995",
+        "recipient": "67a23e163bb90a2f38fc52d3",
+        "deliveryType": "CUSTOMER-CUSTOMER",
+        "pickup": {
+          "contactName": "pissu poosa",
+          "contactNo": "0778887677",
+          "address": "address",
+          "unitNo": "",
+          "note": "my home address",
+          "savedLocation": "67a73f58bd494c02c7023fbe"
+        },
+        "dropoff": {
+          "contactName": "Devaka DD",
+          "contactNo": "07776665656",
+          "address": "asd asd adas asd asd asd",
+          "unitNo": "",
+          "note": "go up",
+          "savedLocation": "67b0ddc86844da1c2bd399c0"
+        },
+        "itemType": "67b00c7057fecdc4d033ef99",
+        "message": "Handle with care"
+    }
+      
+}
+
+npx dotenv -e .env -- serverless invoke local --function getDeliveriesByUserId --path input.json
+
+{
+    "identity": {
+        "username": "558ea2e5-6d33-425e-8987-70646888136a"
+    },
+    "arguments": {
+        "userId": "67a23e163bb90a2f38fc52d0"
+    }
+}

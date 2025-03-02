@@ -146,6 +146,51 @@ input updateDeliveryRecipientInput {
     customerId: ID # If recipient is a registered customer
 }
 
+type Delivery {
+    _id: ID!
+    createdBy: Customer! # The user who created the delivery
+    sender: Customer! # The sender (same as createdBy)
+    recipient: Customer # The recipient (if registered, otherwise guest)
+    pickup: DeliveryLocation! # Pickup details
+    dropoff: DeliveryLocation! # Dropoff details
+    itemType: ItemType! # The type of item being delivered
+    message: String # Optional message for the recipient
+    status: DeliveryStatus! # Current status of the delivery
+    driver: Driver # Assigned driver, if any
+    createdAt: String
+    updatedAt: String
+}
+
+# Delivery Status Enum
+enum DeliveryStatus {
+    PENDING
+    ASSIGNED
+    IN_TRANSIT
+    COMPLETED
+    CANCELLED
+}
+
+# Driver Type (related to User)
+type Driver {
+    _id: ID!
+    user: User! # The user record linked to the driver
+    vehicleType: String!
+    licenseNumber: String!
+    isAvailable: Boolean!
+}
+
+# Input for Creating a Delivery
+input createDeliveryInput {
+    createdBy: ID! # The user creating the delivery
+    sender: ID! # Sender must be a registered customer
+    recipient: ID! # Recipient can be a customer or left null for guests
+    deliveryType: String! # CUSTOMER-CUSTOMER, CUSTOMER-GUEST
+    pickup: DeliveryLocationInput! # Pickup details
+    dropoff: DeliveryLocationInput! # Dropoff details
+    itemType: ID! # ID of the item type
+    message: String # Optional message
+}
+
 type Query {
     getCustomer(customerId: ID!): Customer
     getLocationByUser(userId: ID!): [Location]
@@ -155,6 +200,8 @@ type Query {
 
     # New: Fetch a delivery form
     getDeliveryForm(formId: ID!): DeliveryForm
+
+    getDeliveriesByUserId(userId: ID!): [Delivery]
 }
 
 type Mutation {
