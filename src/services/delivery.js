@@ -249,6 +249,61 @@ const getDeliveriesByUserId = async (userId, status = null) => {
     }
 };
 
+const getRecentUniqueLocationsByUserId = async (userId) => {
+    try {
+        await connectToDatabase();
+
+        if (!mongoose.Types.ObjectId.isValid(userId)) {
+            throw new Error('Invalid user ID');
+        }
+
+        // Find deliveries where user is either sender or recipient
+        const deliveries = await Delivery.find({
+            $or: [{ sender: userId }, { recipient: userId }]
+        })
+        .select('pickup dropoff createdAt') // Fetch only required fields
+        .sort({ createdAt: -1 }); // Sort by latest created date
+
+        // Use a map to store unique locations by (long, lat)
+        const locationMap = new Map();
+
+        deliveries.forEach(delivery => {
+            const locations = [delivery.pickup, delivery.dropoff];
+
+            locations.forEach(location => {
+                if (location && location.long && location.lat) {
+                    const key = `${location.long},${location.lat}`;
+
+                    // Only add the first occurrence of this (long, lat)
+                    if (!locationMap.has(key)) {
+                        locationMap.set(key, {
+                            _id: location.savedLocation || null, // Optional
+                            name: location.contactName || 'Unknown Location',
+                            address: location.address,
+                            long: location.long,
+                            lat: location.lat,
+                            details: location.details || '',
+                            note: location.note || '',
+                            contactName: location.contactName,
+                            contactNo: location.contactNo,
+                            createdAt: delivery.createdAt
+                        });
+                    }
+                }
+            });
+        });
+
+        // Convert the map values to an array
+        const uniqueLocations = Array.from(locationMap.values());
+
+        return uniqueLocations;
+    } catch (error) {
+        console.error('Error fetching recent unique locations by user ID:', error);
+        throw new Error(error.message);
+    }
+};
+
+
 
 
 module.exports = {
@@ -257,5 +312,6 @@ module.exports = {
     assignDriver,
     updateDeliveryStatus,
     deleteDelivery,
-    getDeliveriesByUserId
+    getDeliveriesByUserId,
+    getRecentUniqueLocationsByUserId
 };
